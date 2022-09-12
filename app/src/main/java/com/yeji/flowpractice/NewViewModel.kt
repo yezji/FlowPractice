@@ -5,7 +5,7 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 
 class NewViewModel : ViewModel() {
-    private val _sharedFlow = MutableSharedFlow<String?>(1)
+    private val _sharedFlow = MutableSharedFlow<String?>()
     val sharedFlow = _sharedFlow.asSharedFlow()
     suspend fun setSharedFlow(string: String?) { _sharedFlow.emit(string)}
 
@@ -13,7 +13,7 @@ class NewViewModel : ViewModel() {
      * comments:
      * [channel을 flow로 변환하여 데이터 방출 시] 다른 coroutinescope를 사용해도 괜찮음
      */
-    private val _channel = Channel<String?>(10)
+    private val _channel = Channel<String?>()
     val channel = _channel.receiveAsFlow() // channel을 flow로 변환하여 사용
     suspend fun setChannel(string: String?) { _channel.send(string) }
 
