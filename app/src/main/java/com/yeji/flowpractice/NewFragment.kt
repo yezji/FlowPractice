@@ -23,6 +23,10 @@ class NewFragment : Fragment() {
     private val binding: FragmentNewBinding get() = requireNotNull(_binding)
     private val newViewModel: NewViewModel by activityViewModels<NewViewModel>()
 
+    /**
+     * onstart 전에 resultNewLaucncher callback 안에 setNewValues()되어서 channel의 값이 방출되었다
+     * 방출된게 그냥 흘러가버려서 간발의 타이밍으로 빗겨가서 그렇다
+     */
     private val resultNewLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             result: ActivityResult -> // callback
 
@@ -55,6 +59,7 @@ class NewFragment : Fragment() {
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
+                    // sharedflow는 받던지 안받던지 상관없이 흘려보내면 끝임
                     newViewModel.sharedFlow.collect { str ->
                         binding.tvSharedFlow.text = str
                         Log.d("yezzz NewFragment", "sharedFlow: ${str}")
@@ -71,13 +76,15 @@ class NewFragment : Fragment() {
                     //            setStateFlow(null)
                     //      }
                      */
+                    // channel은 blocking queue처럼 동작하여 방출되지 않고 기다리고 있다가 준비되면 방출하기에 잘 나옴
                     newViewModel.channel.collect { str ->
-                        binding.tvSharedFlow.text = str
+                        binding.tvChannel.text = str
                         Log.d("yezzz NewFragment", "channel: ${str}")
 
                     }
                 }
                 launch {
+                    // stateflow는 이미 방출되었지만 다시 값을 요구하여 최신값을 보여주기에 뷰에서 보임
                     newViewModel.stateFlow.collect { str ->
                         binding.tvStateFlow.text = str
                         Log.d("yezzz NewFragment", "stateFlow: ${str}")
@@ -91,13 +98,8 @@ class NewFragment : Fragment() {
 
 
     fun setNewValues(str: String?) {
-        lifecycleScope.launch {
-            newViewModel.setSharedFlow(str)
-            newViewModel.setChannel(str)
-            newViewModel.setStateFlow(str)
+            newViewModel.setNewValues(str)
             Log.d("yezzz NewFragment :: after closed NewActivity", "")
-
-        }
     }
 
 
