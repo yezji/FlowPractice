@@ -80,8 +80,8 @@ class MainActivity : AppCompatActivity() {
         // activity 안에 fragment 만들고 그 fragment 안에서 activity를 열어서 값을 전달하기
         // (=permission dialog 열리는 상황을 예제로 해보는 것!)
         /**
-         * channel 값이 안찍히는 이유는?
-         *
+         * sharedFlow 값이 안찍히는 이유는?
+         * -> SharedFlow는 받던지 안받던지 상관없이 흘려보내면 끝이기 때문
          */
 
         supportFragmentManager.beginTransaction()

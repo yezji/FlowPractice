@@ -1,7 +1,6 @@
 package com.yeji.flowpractice
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -17,7 +16,6 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.yeji.flowpractice.databinding.FragmentNewBinding
 import kotlinx.coroutines.launch
 
-//class NewFragment : Fragment(), OnResultDataPassListener {
 class NewFragment : Fragment() {
     private var _binding: FragmentNewBinding? = null
     private val binding: FragmentNewBinding get() = requireNotNull(_binding)
@@ -65,6 +63,7 @@ class NewFragment : Fragment() {
                         Log.d("yezzz NewFragment", "sharedFlow: ${str}")
                     }
                 }
+
                 launch {
                     /**
                      * Flow인 경우 다른 coroutine scope여도 받아올 수 있다!!!
@@ -99,15 +98,15 @@ class NewFragment : Fragment() {
 
     fun setNewValues(str: String?) {
             newViewModel.setNewValues(str)
-            Log.d("yezzz NewFragment :: after closed NewActivity", "")
+            Log.d("yezzz NewFragment :: setNewValues", "")
+
+        // fragment쪽에서 ViewModel의 값을 바꾸지 말고 ViewModel쪽에서 바꾸어야 한다.
+//        lifecycleScope.launch {
+//            newViewModel.setSharedFlow(str)
+//            newViewModel.setChannel(str)
+//            newViewModel.setStateFlow(str)
+//            Log.d("yezzz NewFragment :: setNewValues", "")
+//        }
     }
-
-
-//    override fun onResultDataPass(resultData: String?) {
-//        Log.d("yezzz NewFragment :: setNewValues", "resultStr: ${resultData ?: ""}")
-//
-//        setNewValues(resultData)
-//    }
-
 
 }

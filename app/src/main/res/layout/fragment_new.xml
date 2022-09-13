@@ -32,6 +32,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textStyle="bold"
                     android:text="shared flow: " />
                 <TextView
                     android:id="@+id/tv_shared_flow"
@@ -47,8 +48,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textStyle="bold"
-                    android:text="channel:  " />
+                    android:text="channel flow:  " />
                 <TextView
                     android:id="@+id/tv_channel"
                     tools:text="channel"
